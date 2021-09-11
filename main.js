@@ -1,12 +1,13 @@
 // app: 控制应用生命周期的模块  BrowserWindow: 创建原生浏览器窗口的模块
 const { app, BrowserWindow } = require("electron");
+var fs = require("fs");
 const path = require("path");
 const { ipcMain } = require("electron");
 var adm_zip = require("adm-zip");
 const { deleteFolderRecursive, generateExcel } = require("./tools");
 
 try {
-  require("electron-reload")(__dirname, {});
+  // require("electron-reload")(__dirname, {});
 } catch (error) {
   console.log(error);
 }
@@ -25,8 +26,10 @@ function createWindow() {
   // 加载应用的 index.html
   mainWindow.loadFile("index.html");
 
-  // 启用开发工具
-  // mainWindow.webContents.openDevTools();
+  // 判断当前是否是打包，启用开发工具
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
 }
 
 // Electron 会在初始化后并准备创建浏览器窗口时，调用这个函数
@@ -69,17 +72,25 @@ ipcMain.on("exportFile", async (event, arg) => {
     // 解压 使用adm-zip
     var unzip = new adm_zip(pathName);
     const unzipFileName = fileName;
-    await unzip.extractAllTo("./zip/" + unzipFileName, true);
+    await unzip.extractAllTo(`./zip/${unzipFileName}`, true);
+    const unzipPath = fs.readdirSync(`./zip/${unzipFileName}`).find(file => !file.includes('__'))
     await generateExcel(
-      "./zip/" + unzipFileName + "/" + unzipFileName,
+      `./zip/${unzipFileName}/${unzipPath}`,
       excelName
     );
+    console.log('生成路径', path.resolve(`./${excelName}.xlsx`))
     // 后台Node进程通知前端上传成功
     event.sender.send("exportFileSuccess", {
       msg: "ok",
+      path: path.resolve(`./${excelName}.xlsx`),
       code: 0,
     });
   } catch (error) {
+    // 后台Node进程通知前端上传失败
     console.log("error", error);
+    event.sender.send('exportFileError', {
+      msg: error,
+      code: 0
+    })
   }
 });

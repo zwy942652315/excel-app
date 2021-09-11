@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta htto-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'">
+    <link rel="stylesheet" href="style/reset.css">
+    <link rel="stylesheet" href="style/index.css">
+    <title>生成excel</title>
+  </head>
+  <body>
+    <div class="upload-box">
+      <h1>请上传文件压缩包，生成excel</h1>
+      <input type="file" id="file" name="file">
+      <div>
+        <button id="export-btn" type="button">导出excel</button>
+      </div>
+    </div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

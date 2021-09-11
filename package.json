@@ -1,0 +1,93 @@
+{
+  "name": "excel-app",
+  "version": "1.0.0",
+  "description": "generate excel",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "compile": "electron-webpack",
+    "dist:win": "electron-builder --win --x64",
+    "dist:mac": "electron-builder --mac",
+    "build": "electron-builder -mwl",
+    "package": "electron-packager ./ excelApp --all --out ./OutApp --overwrite --icon=./assets/excel.ico",
+    "package:mas": "electron-packager ./ excelApp --platform=mas --out ./MasApp --overwrite --icon=./assets/excel.ico",
+    "package:win": "electron-packager ./ excelApp --platform=win32 --out ./WinApp --overwrite --icon=./assets/excel.ico"
+  },
+  "electronWebpack": {
+    "commonSourceDirectory": "common",
+    "main": {
+      "sourceDirectory": "main"
+    },
+    "renderer": {
+      "sourceDirectory": null
+    }
+  },
+  "author": "wenyan",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^14.0.0",
+    "electron-builder": "^22.11.7",
+    "electron-packager": "^15.3.0",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-webpack": "^2.8.2"
+  },
+  "build": {
+    "productName": "excelApp",
+    "appId": "com.excel.app",
+    "directories": {
+      "output": "build"
+    },
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "excel"
+    },
+    "files": [
+      "./build/**/*",
+      "./main.js",
+      "node_modules/",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {},
+    "win": {
+      "icon": "./assets/excel.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "icon": "./assets/excel.ico"
+    }
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.5",
+    "node-xlsx": "^0.17.1"
+  }
+}

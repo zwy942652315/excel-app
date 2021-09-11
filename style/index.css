@@ -1,0 +1,27 @@
+body {
+  background: #a6947b url(../assets/bg.jpeg) no-repeat;
+  background-size: cover;
+  position: relative;
+  border: 0;
+}
+.upload-box {
+  width: 50%;
+  height: auto;
+  font-size: 18px;
+  color: #ffffff;
+  line-height: 50px;
+  margin: 150px auto;
+}
+h1 {
+  font-size: 20px;
+}
+#excelName {
+  min-width: 200px;
+  height: 30px;
+  line-height: 30px;
+}
+#export-btn {
+  width: auto;
+  height: 40px;
+  margin-top: 30px;
+}

@@ -68,21 +68,22 @@ ipcMain.on("exportFile", async (event, arg) => {
     // });
     // await fs.createReadStream("./demo").pipe(extract);
     // 清空解压文件夹
-    await deleteFolderRecursive("./zip");
+    const currentPath = path.join(__dirname)
+    await deleteFolderRecursive(`${currentPath}/zip`);
     // 解压 使用adm-zip
     var unzip = new adm_zip(pathName);
     const unzipFileName = fileName;
-    await unzip.extractAllTo(`./zip/${unzipFileName}`, true);
-    const unzipPath = fs.readdirSync(`./zip/${unzipFileName}`).find(file => !file.includes('__'))
+    await unzip.extractAllTo(`${currentPath}/zip/${unzipFileName}`, true);
+    const unzipPath = fs.readdirSync(`${currentPath}/zip/${unzipFileName}`).find(file => !file.includes('__'))
     await generateExcel(
-      `./zip/${unzipFileName}/${unzipPath}`,
+      `${currentPath}/zip/${unzipFileName}/${unzipPath}`,
       excelName
     );
-    console.log('生成路径', path.resolve(`./${excelName}.xlsx`))
+    console.log('生成路径', path.resolve(`${currentPath}/${excelName}.xlsx`))
     // 后台Node进程通知前端上传成功
     event.sender.send("exportFileSuccess", {
       msg: "ok",
-      path: path.resolve(`./${excelName}.xlsx`),
+      path: path.resolve(`${currentPath}/${excelName}.xlsx`),
       code: 0,
     });
   } catch (error) {

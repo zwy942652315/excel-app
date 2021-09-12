@@ -8,6 +8,8 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 tests/**/coverage/
+MasApp/
+WinApp/
 
 # Editor directories and files
 .idea

@@ -16,8 +16,6 @@ npm install
 npm start
 ```
 
-
-
 ## 打包
 
 ```bash
@@ -26,5 +24,5 @@ npm run build
 
 ## Demo
 
-
+![demo](https://github.com/zwy942652315/excel-app/tree/master/assets/demo.gif)
 
